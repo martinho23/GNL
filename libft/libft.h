@@ -6,7 +6,7 @@
 /*   By: jfarinha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 11:28:51 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/01/11 10:13:38 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/01/11 10:36:23 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char			*ft_strmap(const char *str, char (*f)(char));
 char			*ft_strmapi(const char *str, char (*f)(unsigned int, char));
 char			*ft_strsub(const char *str, unsigned int start, size_t n);
 char			*ft_strjoin(const char *s1, const char *s2);
+char			*ft_strfreejoin(char *s1, const char *s2);
 char			*ft_strtrim(const char *str);
 char			**ft_strsplit(const char *str, char c);
 /*

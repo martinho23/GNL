@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getnextline.h                                      :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfarinha <jfarinha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 19:57:38 by jfarinha          #+#    #+#             */
-/*   Updated: 2017/12/28 20:10:05 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/01/11 11:56:46 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef struct	s_fd_handler
 }				t_fd_handler;
 
 
-int				readf(t_fd_handler *handler);
-int				getnextline(int fd, char **line);
+int				process(t_fd_handler *handler, char **line);
+int				get_next_line(int fd, char **line);
+void			readf(t_fd_handler *handler);
 void			delfd(t_fd_handler *handler);
-void			process(t_fd_handler *handler, char **line);
 t_fd_handler	*newfd(int fd);
 
 #endif
