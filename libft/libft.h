@@ -6,7 +6,7 @@
 /*   By: jfarinha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 11:28:51 by jfarinha          #+#    #+#             */
-/*   Updated: 2017/11/27 23:13:40 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/01/11 10:13:38 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int				ft_memcmp(const void *p1, const void *p2, size_t n);
 void			ft_bzero(void *p, size_t n);
 void			ft_memdel(void **ap);
 void			*ft_memset(void *p, int c, size_t n);
-void			*ft_memchr(void *p, int c, size_t n);
+void			*ft_memchr(const void *p, int c, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memmove(void *dest, void *src, size_t n);
-void			*ft_memccpy(void *dest, void *src, int c, size_t n);
+void			*ft_memccpy(void *dest, const void *src, int c, size_t n);
 void			*ft_memalloc(size_t size);
 /*
 ** String functions
@@ -46,6 +46,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strequ(const char *s1, const char *s2);
 int				ft_strnequ(const char *s1, const char *s2, size_t n);
+int				ft_strfindoc(const char *str, char oc);
 void			ft_strdel(char **ap);
 void			ft_strclr(char *str);
 void			ft_striter(char *str, void (*f)(char *));
@@ -55,10 +56,10 @@ char			*ft_strcpy(char *dest, const char *src);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_strncat(char *dest, const char *src, size_t n);
-char			*ft_strchr(char *str, int c);
-char			*ft_strrchr(char *str, int c);
-char			*ft_strstr(char *s1, char *s2);
-char			*ft_strnstr(char *s1, char *s2, size_t n);
+char			*ft_strchr(const char *str, int c);
+char			*ft_strrchr(const char *str, int c);
+char			*ft_strstr(const char *s1, const char *s2);
+char			*ft_strnstr(const char *s1, const char *s2, size_t n);
 char			*ft_strnew(size_t size);
 char			*ft_strmap(const char *str, char (*f)(char));
 char			*ft_strmapi(const char *str, char (*f)(unsigned int, char));
@@ -96,7 +97,7 @@ void			ft_putnbr_fd(int nbr, int fd);
 /*
 ** Misc functions
 */
-int				ft_atoi(char *str);
+int				ft_atoi(const char *str);
 char			*ft_itoa(int nbr);
 /*
 **List functions
