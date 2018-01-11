@@ -1,0 +1,1 @@
+CMakeLists.txt not found in F:\Joni\Google_Drive\Programation\c\42\libft
