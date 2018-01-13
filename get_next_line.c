@@ -6,20 +6,91 @@
 /*   By: jfarinha <jfarinha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 19:57:25 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/01/11 11:48:40 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:13:54 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "get_next_line.h"
 #include "libft/libft.h"
+#include <stdio.h>
+
+t_fd_handler	*newfd(int fd)
+{
+	t_fd_handler *h;
+
+	h = NULL;
+	if ((h = (t_fd_handler*)malloc(sizeof(*h))))
+	{
+		h->fd = fd;
+		h->buf = NULL;
+		h->line_nb = 0;
+		h->nextfd = NULL;
+	}
+	return (h);
+}
+
+int				readfd(t_fd_handler *h)
+{
+	int		rdc;
+	char	buff[BUFF_SIZE + 1];
+
+	if (h->buf == NULL)
+		if (!(h->buf = ft_strnew(0)))
+			return (-1);
+	while (h->line_nb == 0 && (rdc = read(h->fd, buff, BUFF_SIZE)) > 0)
+	{
+		buff[rdc] = '\0';
+		h->buf = ft_strfreejoin(h->buf, buff);
+		h->line_nb += ft_strfindoc(buff, '\n');
+	}
+    if (rdc < 0)
+        return (-1);
+    return (0);
+
+
+}
+
+void			delfd(t_fd_handler **h)
+{
+	t_fd_handler	*old;
+	if (h != NULL)
+	{
+		old = *h;
+		*h = (*h)->nextfd;
+		ft_strdel(&old->buf);
+		free(old);
+	}
+}
+
+void				process(t_fd_handler *h, char **line)
+{
+	char	*p_endl;
+	char	*old;
+
+	p_endl = ft_strchr(h->buf, '\n');
+	if (h->line_nb)
+	{
+		old = h->buf;
+		h->buf = ft_strdup(p_endl + 1);
+		h->line_nb -= 1;
+		*line = ft_strsub(old, 0, p_endl - old);
+		ft_strdel(&old);
+	}
+	else
+    {
+		*line = ft_strdup(h->buf);
+		delfd(&h);
+	}
+}
 
 int				get_next_line(int fd, char **line)
 {
 	static t_fd_handler	*f = NULL;
 	t_fd_handler		*tmp;
 
-	(void)line;
+	if (fd < 0 || !line)
+		return (-1);
 	if (!f && !(f = newfd(fd)))
 		return (-1);
 	tmp = f;
@@ -27,31 +98,12 @@ int				get_next_line(int fd, char **line)
 		tmp = tmp->nextfd;
 	if (tmp == NULL && !(tmp = newfd(fd)))
 			return (-1);
-	return (1);
+	if (readfd(tmp) == -1)
+		return (-1);
+    //ft_strdel(line);
+    process(tmp, line);
+    if (*line != NULL && *line[0] != '\0')
+	    return (1);
+    else
+        return (0);
 }
-
-t_fd_handler	*newfd(int fd)
-{
-	t_fd_handler *handler;
-	if ((handler = (t_fd_handler*)malloc(sizeof(*handler))))
-	{
-		handler->fd = fd;
-		handler->line_nb = 0;
-		handler->nextfd = NULL;
-	}
-	return (handler);
-}
-
-void			readfd(t_fd_handler *handler)
-{
-	int		rdc;
-	char	buff[BUFFSIZE + 1];
-
-	while (handler->line_nb == 0 && (rdc = read(handler->fd, buff, BUFFSIZE)))
-	{
-		buff[rdc] = '\0';
-		ft_strfreejoin(handler->buf, buff);
-		handler->line_nb += ft_strfindoc(buff, '\n');
-	}
-}
-
