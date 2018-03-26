@@ -6,7 +6,7 @@
 /*   By: jfarinha <jfarinha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 19:57:25 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/03/26 16:52:23 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/26 23:31:50 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			delfd(t_fd_handler **h)
 	}
 }
 
-void				process(t_fd_handler **h, char **line)
+int				process(t_fd_handler **h, char **line)
 {
 	char	*p_endl;
 	char	*old;
@@ -75,11 +75,13 @@ void				process(t_fd_handler **h, char **line)
 		(*h)->line_nb -= 1;
 		*line = ft_strsub(old, 0, p_endl - old);
 		ft_strdel(&old);
+		return (1);
 	}
 	else
 	{
 		*line = ft_strdup((*h)->buf);
 		delfd(h);
+		return (0);
 	}
 }
 
@@ -94,13 +96,12 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 	tmp = &f;
 	while (*tmp && (*tmp)->fd != fd)
-		*tmp = (*tmp)->nextfd;
+		tmp = &(*tmp)->nextfd;
 	if (*tmp == NULL && !(*tmp = newfd(fd)))
 			return (-1);
 	if (readfd(*tmp) == -1)
 		return (-1);
-	process(tmp, line);
-	if (*line != NULL && *line[0] != '\0')
-		return (1);
-	return (0);
+	if (process(tmp, line) == 0 && *line && !*line[0])
+		return (0);
+	return (1);
 }

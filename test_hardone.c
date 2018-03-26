@@ -22,7 +22,7 @@ int		main(void)
 	int		fd;
 	int		code;
 
-	fd = open("test.txt", O_RDONLY);
+	fd = open("test4.txt", O_RDONLY);
 	line = NULL;
 
 	/**/while((code = get_next_line(fd, &line)) > 0)
