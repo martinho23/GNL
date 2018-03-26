@@ -6,7 +6,7 @@
 /*   By: jfarinha <jfarinha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 19:57:25 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/01/12 15:13:54 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/26 16:52:23 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ int				readfd(t_fd_handler *h)
 		h->buf = ft_strfreejoin(h->buf, buff);
 		h->line_nb += ft_strfindoc(buff, '\n');
 	}
-    if (rdc < 0)
-        return (-1);
-    return (0);
-
-
+	if (rdc < 0)
+		return (-1);
+	return (0);
 }
 
 void			delfd(t_fd_handler **h)
@@ -58,52 +56,51 @@ void			delfd(t_fd_handler **h)
 	{
 		old = *h;
 		*h = (*h)->nextfd;
+		old->fd = -1;
 		ft_strdel(&old->buf);
-		free(old);
+		ft_memdel((void**)&old);
 	}
 }
 
-void				process(t_fd_handler *h, char **line)
+void				process(t_fd_handler **h, char **line)
 {
 	char	*p_endl;
 	char	*old;
 
-	p_endl = ft_strchr(h->buf, '\n');
-	if (h->line_nb)
+	p_endl = ft_strchr((*h)->buf, '\n');
+	if ((*h)->line_nb)
 	{
-		old = h->buf;
-		h->buf = ft_strdup(p_endl + 1);
-		h->line_nb -= 1;
+		old = (*h)->buf;
+		(*h)->buf = ft_strdup(p_endl + 1);
+		(*h)->line_nb -= 1;
 		*line = ft_strsub(old, 0, p_endl - old);
 		ft_strdel(&old);
 	}
 	else
-    {
-		*line = ft_strdup(h->buf);
-		delfd(&h);
+	{
+		*line = ft_strdup((*h)->buf);
+		delfd(h);
 	}
 }
 
 int				get_next_line(int fd, char **line)
 {
 	static t_fd_handler	*f = NULL;
-	t_fd_handler		*tmp;
+	t_fd_handler		**tmp;
 
 	if (fd < 0 || !line)
 		return (-1);
 	if (!f && !(f = newfd(fd)))
 		return (-1);
-	tmp = f;
-	while (tmp != NULL && tmp->fd != fd)
-		tmp = tmp->nextfd;
-	if (tmp == NULL && !(tmp = newfd(fd)))
+	tmp = &f;
+	while (*tmp && (*tmp)->fd != fd)
+		*tmp = (*tmp)->nextfd;
+	if (*tmp == NULL && !(*tmp = newfd(fd)))
 			return (-1);
-	if (readfd(tmp) == -1)
+	if (readfd(*tmp) == -1)
 		return (-1);
-    //ft_strdel(line);
-    process(tmp, line);
-    if (*line != NULL && *line[0] != '\0')
-	    return (1);
-    else
-        return (0);
+	process(tmp, line);
+	if (*line != NULL && *line[0] != '\0')
+		return (1);
+	return (0);
 }
