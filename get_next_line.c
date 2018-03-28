@@ -6,7 +6,7 @@
 /*   By: jfarinha <jfarinha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/28 19:57:25 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/03/26 23:31:50 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/28 10:27:55 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int				readfd(t_fd_handler *h)
 void			delfd(t_fd_handler **h)
 {
 	t_fd_handler	*old;
+
 	if (h != NULL)
 	{
 		old = *h;
@@ -98,7 +99,7 @@ int				get_next_line(int fd, char **line)
 	while (*tmp && (*tmp)->fd != fd)
 		tmp = &(*tmp)->nextfd;
 	if (*tmp == NULL && !(*tmp = newfd(fd)))
-			return (-1);
+		return (-1);
 	if (readfd(*tmp) == -1)
 		return (-1);
 	if (process(tmp, line) == 0 && *line && !*line[0])

@@ -6,7 +6,7 @@
 /*   By: jfarinha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 09:44:25 by jfarinha          #+#    #+#             */
-/*   Updated: 2017/11/21 09:28:27 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/28 10:31:43 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static	char	*alloc(int nbr, char *tmp)
 	len = ft_strlen(tmp);
 	if (nbr < 0)
 		is_neg = 1;
-	if (!(ret_val = (char *)malloc(sizeof(*ret_val) * (len+ 1 + is_neg))))
+	if (!(ret_val = (char *)malloc(sizeof(*ret_val) * (len + 1 + is_neg))))
 		return (NULL);
 	if (nbr < 0)
 		ret_val[i++] = '-';

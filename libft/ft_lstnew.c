@@ -6,7 +6,7 @@
 /*   By: jfarinha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 17:49:42 by jfarinha          #+#    #+#             */
-/*   Updated: 2017/11/21 09:30:33 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/28 10:33:43 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_list		*ft_lstnew(void const *content, size_t content_size)
 {
- 	t_list	*tmp;
+	t_list	*tmp;
 
 	if (!(tmp = (t_list *)malloc(sizeof(*tmp))))
 		return (NULL);

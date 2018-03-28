@@ -6,12 +6,13 @@
 /*   By: jfarinha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 19:25:03 by jfarinha          #+#    #+#             */
-/*   Updated: 2018/03/26 12:04:26 by jfarinha         ###   ########.fr       */
+/*   Updated: 2018/03/28 10:34:51 by jfarinha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
+
 char	*ft_strfreejoin(char *s1, const char *s2)
 {
 	char	*tmp;
